@@ -31,3 +31,46 @@ public class DistinctSubsequences {
         System.out.println("Number of unique ways: " + countWays(A, B));
     }
 }
+
+
+C IMPLEMENTATION
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<math.h>
+
+int check(char string1[], char string2[]){
+    int n=strlen(string1);
+    int m=strlen(string2);
+    int dp[n+1][m+1];
+    for(int i=0;i<=n;i++){
+        dp[i][m]=1;
+    }
+    for(int i=m-1;i>=0;i--){
+        dp[n][i]=0;
+    }
+
+    for(int i=n-1;i>=0;i--){
+        for(int j=m-1;j>=0;j--){
+            if(string1[i]==string2[j]){
+                dp[i][j]=dp[i+1][j+1]+dp[i+1][j];
+            }
+            else{
+                dp[i][j]=dp[i+1][j];
+            }
+        }
+    }
+    return dp[0][0];
+}
+int main(){
+
+printf("enter the string1: \n");
+char string1[100];
+char string2[100];
+scanf("%s", string1);
+scanf("%s",string2);
+int ans=check(string1, string2);
+printf("here is the answer: %d", ans);
+    return 0;
+}
