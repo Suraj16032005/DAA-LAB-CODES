@@ -1,0 +1,65 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+
+int compare(const void *a, const void *b){
+    return (*(int*)a-*(int*)b);
+}
+
+int maximum(int a, int b){
+    if(a>b)return a;
+    else return b;
+}
+
+int check(int arr[][2], int n){
+    int start[n];
+    int end[n];
+    for(int i=0;i<n;i++){
+        start[i]=arr[i][0];
+        end[i]=arr[i][1];
+    }
+
+    qsort(start, n, sizeof(int), compare);
+    for(int i=0;i<n;i++){
+        printf("%d ", start[i]);
+    }
+    printf("\n");
+    qsort(end, n, sizeof(int), compare);
+    for(int i=0;i<n;i++){
+        printf("%d ", end[i]);
+    }
+
+    int i=0;
+    int j=0;
+    int count=0;
+    int max=-5;
+    while(i<n && j<n){
+        if(start[i]<end[j]){
+            count++;
+            max=maximum(count, max);
+            i++;
+        }
+        else{
+            count--;
+            j++;
+        }
+
+    }
+    return max;
+
+}
+
+int main(){
+    printf("enter the number of act.: \n");
+    int n;
+    scanf("%d", &n);
+    int arr[n][2];
+    printf("enter the start and end time:\n");
+    for(int i=0;i<n;i++){
+        scanf("%d", &arr[i][0]);
+        scanf("%d", &arr[i][1]);
+    }
+    int res=check(arr,n);
+    printf("ans is : %d ", res);
+    return 0;
+}
