@@ -1,0 +1,28 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+
+int main(){
+    string s="xx..x..x";
+    vector<int> v;
+    int n=s.size();
+    int count=0;
+    for(int i=0;i<n;i++){
+        if(s[i]=='x'){
+            v.push_back(i-count);
+            count++;
+        }
+    }
+    
+    int m=v.size();
+    int median=(m-1)/2;
+    int el=v[median];
+    int ans=0;
+    for(int i=0;i<m;i++){
+        ans+=abs(el-v[i]);
+    }
+    cout<<ans;
+    
+    return 0;
+}
