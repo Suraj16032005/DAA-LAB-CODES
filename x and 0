@@ -1,0 +1,41 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<math.h>
+
+int check(char str[], int n){
+    int count=0;
+    for(int i=0;i<n;i++){
+    if(str[i]=='x')count++;
+    }
+    int res[count];
+    int j=0;
+    int count2=0;
+    for(int i=0;i<n;i++){
+        if(str[i]=='x'){
+            count2++;
+            res[j++]=i-count2;
+        }
+    }
+    int posn=(count-1)/2;
+    int el=res[posn];
+    int ans=0;
+    for(int i=0;i<count;i++){
+        ans+=abs(el-res[i]);
+    }
+    return ans;
+}
+
+int main(){
+
+    int n;
+   printf("enter the string of x and .  \n");
+   char str[100];
+   scanf("%s", &str);
+   n=strlen(str);
+
+   int ans=check(str, n);
+   printf("\n");
+   printf(" %d", ans);
+    return 0;
+}
