@@ -1,7 +1,3 @@
-PROBLEM 1----> CHECK IF THERE EXISTS A PATH FROM NODE 1 TO NODE A
-(where A is the no of vertices in the graph)
-(where Node 1 is the starting vertex of the graph)
-
 
 C++ IMPLEMENTATION:
 
