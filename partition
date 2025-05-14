@@ -1,0 +1,90 @@
+#include <stdio.h>
+
+#define MAX_SIZE 30
+
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++)
+        printf("%d ", arr[i]);
+    printf("\n");
+}
+
+// Sort array (simple bubble sort for clarity)
+void sort(int arr[], int n) {
+    for (int i = 0; i < n-1; i++)
+        for (int j = 0; j < n-i-1; j++)
+            if (arr[j] > arr[j+1]) {
+                int temp = arr[j];
+                arr[j] = arr[j+1];
+                arr[j+1] = temp;
+            }
+}
+
+// Try to find subset of size 'targetSize' with sum 'targetSum'
+int findSubset(int arr[], int n, int index, int subset[], int currSize, int currSum, int targetSum, int targetSize) {
+    if (currSize == targetSize)
+        return currSum == targetSum;
+    if (index >= n || currSize > targetSize || currSum > targetSum)
+        return 0;
+
+    // Include current element
+    subset[currSize] = arr[index];
+    if (findSubset(arr, n, index + 1, subset, currSize + 1, currSum + arr[index], targetSum, targetSize))
+        return 1;
+
+    // Exclude current element
+    return findSubset(arr, n, index + 1, subset, currSize, currSum, targetSum, targetSize);
+}
+
+void divideArray(int A[], int n) {
+    int totalSum = 0;
+    for (int i = 0; i < n; i++)
+        totalSum += A[i];
+
+    sort(A, n);
+
+    for (int size = 1; size < n; size++) {
+        if ((totalSum * size) % n != 0)
+            continue;
+
+        int targetSum = (totalSum * size) / n;
+        int subset[MAX_SIZE];
+
+        if (findSubset(A, n, 0, subset, 0, 0, targetSum, size)) {
+            // Found valid subset
+            printf("Part 1: ");
+            printArray(subset, size);
+
+            // Mark used elements
+            int used[MAX_SIZE] = {0};
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (!used[j] && A[j] == subset[i]) {
+                        used[j] = 1;
+                        break;
+                    }
+                }
+            }
+
+            // Print remaining elements
+            printf("Part 2: ");
+            for (int i = 0; i < n; i++) {
+                if (!used[i])
+                    printf("%d ", A[i]);
+            }
+            printf("\n");
+            return;
+        }
+    }
+
+    // No valid division found
+    printf("[]\n");
+}
+
+int main() {
+    int A[] = {4, 4, 4, 4, 6, 6}; // Working example
+    int n = sizeof(A) / sizeof(A[0]);
+
+    divideArray(A, n);
+
+    return 0;
+}
